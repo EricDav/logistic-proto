@@ -52,6 +52,7 @@ message GetUsersRequest {
 
 message GetUsersResponse {
     repeated user users = 1;
+    paginate pagination = 2;
 }
 message user {
     string id = 1;
@@ -71,4 +72,10 @@ message user {
 message roles {
     string id = 1;
     string name = 2;
+}
+
+message paginate {
+    int32 total = 1;
+    int32 pageSize = 2;
+    int32 currentPage = 3;
 }
