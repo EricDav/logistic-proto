@@ -4,6 +4,7 @@ package user;
 
 service UserService {
   rpc Login (LoginRequest) returns (LoginResponse) {}
+  rpc Register (RegisterRequest) returns (RegisterResponse) {}
 }
 
 message LoginRequest {
@@ -15,4 +16,26 @@ message LoginResponse {
     string token = 1;
     string name = 2;
     string email = 3;
+}
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+    string name = 3;
+    string phone = 4;
+    string siteId = 5;
+    string country = 6;
+}
+
+message RegisterResponse {
+    string id = 1;
+    string password = 2;
+    string name = 3;
+    string phone = 4;
+    string email = 5;
+    string country = 6;
+    string imageUrl = 7;
+    string siteId= 8;
+    string isDeleted = 9;
+    string vehicleNumber = 10;
 }
