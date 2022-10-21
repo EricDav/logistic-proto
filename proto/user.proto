@@ -5,6 +5,7 @@ package user;
 service UserService {
   rpc Login (LoginRequest) returns (LoginResponse) {}
   rpc Register (RegisterRequest) returns (RegisterResponse) {}
+  rpc GetUsers (EmptyRequest) returns (GetUsersResponse) {}
 }
 
 message LoginRequest {
@@ -29,13 +30,35 @@ message RegisterRequest {
 
 message RegisterResponse {
     string id = 1;
-    string password = 2;
-    string name = 3;
-    string phone = 4;
-    string email = 5;
-    string country = 6;
-    string imageUrl = 7;
-    string siteId= 8;
-    string isDeleted = 9;
-    string vehicleNumber = 10;
+    string name = 2;
+    string phone = 3;
+    string email = 4;
+    string country = 5;
+    string imageUrl = 6;
+    string siteId= 7;
+    string isDeleted = 8;
+    string vehicleNumber = 9;
+    google.protobuf.Timestamp createdAt = 10;
+}
+
+message EmptyRequest {}
+
+message GetUsersResponse {
+    string id = 1;
+    string name = 2;
+    string phone = 3;
+    string email = 4;
+    string country = 5;
+    string imageUrl = 6;
+    string siteId= 7;
+    string isDeleted = 8;
+    string vehicleNumber = 9;
+    repeated roles role = 10;
+    google.protobuf.Timestamp createdAt = 11;
+    google.protobuf.Timestamp updatedAt = 12;
+}
+
+message roles {
+    string id = 1;
+    string name = 2;
 }
