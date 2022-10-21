@@ -2,12 +2,10 @@ syntax = "proto3";
 
 package user;
 
-import "google/protobuf/timestamp.proto";
-
 service UserService {
   rpc Login (LoginRequest) returns (LoginResponse) {}
   rpc Register (RegisterRequest) returns (RegisterResponse) {}
-  rpc GetUsers (EmptyRequest) returns (GetUsersResponse) {}
+  rpc GetUsers (GetUsersRequest) returns (GetUsersResponse) {}
 }
 
 message LoginRequest {
@@ -40,12 +38,22 @@ message RegisterResponse {
     string siteId= 7;
     string isDeleted = 8;
     string vehicleNumber = 9;
-    google.protobuf.Timestamp createdAt = 10;
+    string createdAt = 10;
+}
+ 
+message GetUsersRequest {
+    int32 pageSize = 1;
+    int32 currentPage = 2;
+    string siteId = 3;
+    string country = 4;
+    string userRole = 5;
+    string search = 6;
 }
 
-message EmptyRequest {}
-
 message GetUsersResponse {
+    repeated user users = 1;
+}
+message user {
     string id = 1;
     string name = 2;
     string phone = 3;
@@ -56,8 +64,8 @@ message GetUsersResponse {
     string isDeleted = 8;
     string vehicleNumber = 9;
     repeated roles role = 10;
-    google.protobuf.Timestamp createdAt = 11;
-    google.protobuf.Timestamp updatedAt = 12;
+    string createdAt = 11;
+    string updatedAt = 12;
 }
 
 message roles {
