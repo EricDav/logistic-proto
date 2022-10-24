@@ -118,7 +118,7 @@ message GetUserRolesRequest {
 }
 
 message GetUserRolesResponse {
-    userRole userRoles = 1;
+    repeated userRole userRoles = 1;
 }
 
 message userRole {
@@ -151,7 +151,7 @@ message GetRolePermissionsRequest {
 }
 
 message GetRolePermissionsResponse {
-    rolePermission rolePermssions = 1;
+    repeated rolePermission rolePermssions = 1;
 }
 
 message rolePermission {
