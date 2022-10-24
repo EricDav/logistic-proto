@@ -151,7 +151,7 @@ message GetRolePermissionsRequest {
 }
 
 message GetRolePermissionsResponse {
-    repeated rolePermission rolePermssions = 1;
+    repeated rolePermission rolePermissions = 1;
 }
 
 message rolePermission {
