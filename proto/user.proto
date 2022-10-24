@@ -6,6 +6,16 @@ service UserService {
   rpc Login (LoginRequest) returns (LoginResponse) {}
   rpc Register (RegisterRequest) returns (RegisterResponse) {}
   rpc GetUsers (GetUsersRequest) returns (GetUsersResponse) {}
+  rpc GetUserById(GetUserByIdRequest) returns (user) {}
+  rpc Role (RoleRequest) returns (SuccessResponse) {}
+  rpc GetRoles (EmptyRequest) returns (GetRolesResponse) {}
+  rpc GetUserRoles(GetUserRolesRequest) returns (GetUserRolesResponse) {}
+  rpc Resource(ResourceRequest) returns (SuccessResponse) {}
+  rpc Permission(PermissionRequest) returns (SuccessResponse) {}
+  rpc GetPermissions(EmptyRequest) returns (GetPermissionsResponse) {}
+  rpc GetRolesPermissions(GetRolePermissionsRequest) returns (GetRolePermissionsResponse) {}
+  rpc AssignPermissionsToRole(AssignPermissionsToRoleRequest) returns (SuccessResponse) {}
+  rpc AssignRoleToUser(AssignRoleToUserRequest) returns (SuccessResponse) {}
 }
 
 message LoginRequest {
@@ -78,4 +88,89 @@ message paginate {
     int32 total = 1;
     int32 pageSize = 2;
     int32 currentPage = 3;
+}
+
+message GetUserByIdRequest {
+    string id = 1;
+}
+
+message RoleRequest {
+    string name = 1;
+}
+
+message SuccessResponse {
+    string success = 1;
+}
+
+message EmptyRequest {}
+
+message GetRolesResponse {
+    repeated role roles = 1;
+}
+
+message role {
+    int32 id = 1;
+    string name = 2;
+}
+
+message GetUserRolesRequest {
+    string id = 1;
+}
+
+message GetUserRolesResponse {
+    userRole userRoles = 1;
+}
+
+message userRole {
+    int32 id = 1;
+    repeated roles role = 2;
+}
+
+message ResourceRequest {
+    string name = 1;
+}
+
+message PermissionRequest {
+    int32 resourceId = 1;
+    string name = 2;
+}
+
+message GetPermissionsResponse {
+    repeated permission permissions = 1;
+}
+
+message permission {
+    int32 id = 1;
+    string name = 2;
+    string createdAt = 3;
+    string updatedAt = 4;
+}
+
+message GetRolePermissionsRequest {
+    int32 id = 1;
+}
+
+message GetRolePermissionsResponse {
+    rolePermission rolePermssions = 1;
+}
+
+message rolePermission {
+    int32 id = 1;
+    string name = 2;
+    repeated permissions permission = 3;
+}
+
+message permissions {
+    int32 id = 1;
+    string name = 2;
+}
+
+message AssignPermissionsToRoleRequest {
+    string roleId = 1;
+    string permissionId = 2;
+}
+
+message AssignRoleToUserRequest {
+    string roleId = 1;
+    string userId = 2;
 }
