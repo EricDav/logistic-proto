@@ -91,7 +91,7 @@ message paginate {
 }
 
 message GetUserByIdRequest {
-    string id = 1;
+    string userId = 1;
 }
 
 message RoleRequest {
@@ -114,7 +114,7 @@ message role {
 }
 
 message GetUserRolesRequest {
-    string id = 1;
+    string userId = 1;
 }
 
 message GetUserRolesResponse {
@@ -147,7 +147,7 @@ message permission {
 }
 
 message GetRolePermissionsRequest {
-    int32 id = 1;
+    int32 roleId = 1;
 }
 
 message GetRolePermissionsResponse {
