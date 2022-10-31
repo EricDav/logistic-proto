@@ -5,6 +5,10 @@ package expeditor;
 service ExpeditorService {
     rpc CreateDriver (Driver) returns (SuccessResponse) {}
     rpc FetchTrips (FetchTripsRequest) returns (FetchTripsResponse) {}
+    rpc FetchTrucks (FetchTrucksRequest) returns (FetchTrucksResponse) {}
+    rpc FetchRecentTruckTrip (FetchRecentTruckTripRequest) returns (FetchRecentTruckTripResponse) {}
+    rpc FetchSites (FetchSitesRequest) returns (FetchSitesResponse) {}
+    rpc GetTripById (GetTripByIdRequest) returns (GetTripByIdResponse) {}
 }
 
 message Driver {
@@ -40,7 +44,7 @@ message trip {
     string expectedArrivalTime = 5;
     string newExpectedArrivalTime = 6;
     string currentStopId= 7;
-    int64 lateness = 8;
+    int32 lateness = 8;
     string status = 9;
     string lastKnownLocation = 10;
     string plannedDate = 11;
@@ -120,3 +124,90 @@ message paginate {
     int32 pageSize = 2;
     int32 currentPage = 3;
 }
+message FetchTrucksRequest {
+    int32 pageSize = 1;
+    int32 currentPage = 2;
+    string search = 3;
+}
+message FetchTrucksResponse {
+    repeated truck trucks = 1;
+    paginate pagination = 2;
+}
+message FetchRecentTruckTripRequest {
+    string truckNumber = 1;
+}
+message FetchRecentTruckTripResponse {
+    recentTrip trip = 1;
+}
+message recentTrip {
+    string id = 1;
+    string takeOffTime = 2;
+    string actualTakeOffTime = 3;
+    string actualArrivalTime = 4;
+    string expectedArrivalTime = 5;
+    string newExpectedArrivalTime = 6;
+    string currentStopId= 7;
+    int32 lateness = 8;
+    string status = 9;
+    string lastKnownLocation = 10;
+    string plannedDate = 11;
+    string createdAt = 12;
+    string updatedAt = 13;
+    repeated stop stops = 14;
+}
+
+message FetchSitesRequest {
+    string country = 1;
+    string isDeployed = 2;
+}
+
+message FetchSitesResponse {
+    repeated sites sites = 1;
+}
+message sites {
+    string number = 1;
+    string name = 2;
+}
+
+message GetTripByIdRequest {
+    string id = 1;
+}
+message GetTripByIdResponse {
+    tripById trip = 1;
+}
+
+message tripById {
+    string id = 1;
+    string takeOffTime = 2;
+    string actualTakeOffTime = 3;
+    string actualArrivalTime = 4;
+    string expectedArrivalTime = 5;
+    string newExpectedArrivalTime = 6;
+    string currentStopId= 7;
+    int32 lateness = 8;
+    string status = 9;
+    string lastKnownLocation = 10;
+    string plannedDate = 11;
+    string createdAt = 12;
+    string updatedAt = 13;
+    driver driver = 14;
+    truck truck = 15;
+    repeated stop stops = 16;
+    site site = 17;
+    repeated location locations = 18;
+    repeated mapBoxPlannedData mapBoxPlannedData = 19;
+}
+message location {
+    string id = 1;
+    string lat = 2;
+    string long = 3;
+    string address = 4;
+    string date = 5;
+    string startDate = 6;
+    int32 ownerId = 7;
+    string evaluated = 8;
+    int32 numUnique = 9;
+    string createdAt = 10;
+    string updatedAt = 11;
+}
+ message mapBoxPlannedData {}
