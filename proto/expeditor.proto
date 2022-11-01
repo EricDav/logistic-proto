@@ -8,7 +8,23 @@ service ExpeditorService {
     rpc FetchTrucks (FetchTrucksRequest) returns (FetchTrucksResponse) {}
     rpc FetchRecentTruckTrip (FetchRecentTruckTripRequest) returns (FetchRecentTruckTripResponse) {}
     rpc FetchSites (FetchSitesRequest) returns (FetchSitesResponse) {}
-    rpc GetTripById (GetTripByIdRequest) returns (GetTripByIdResponse) {}
+    rpc GetTripById (GetResourceId) returns (GetTripByIdResponse) {}
+    rpc FetchSinglePlannedAndActualCoordinatesTrips (GetResourceId) returns (fetchSinglePlannedAndActualCoordinatesTripsResponse) {}
+    rpc FetchStatusCount (FetchStatusCountRequest) returns (FetchStatusCountResponse) {}
+    rpc FetchLoadByStopId (FetchLoadByStopIdRequest) returns (FetchLoadByStopIdResponse) {}
+    rpc GetTripStatusHistoryById (GetTripStatusHistoryByIdRequest)returns (GetTripStatusHistoryByIdResponse) {}
+    rpc IsInsideGateWayPlant (IsInsideGateWayPlantRequest) returns (IsInsideGateWayPlantResponse) {}
+    rpc GetKPIs (GetKPIsRequest) returns (GetKPIsResponse) {}
+    // rpc UpdateTruckLocation (UpdateTruckLocationRequest) returns (UpdateTruckLocationResponse) {}
+    // rpc FetchAlertCount (FetchAlertCountRequest) returns (FetchAlertCountResponse) {}
+    // rpc GetReasons (GetReasonsRequest) returns (GetReasonsResponse) {}
+    // rpc CreateReason (CreateReasonRequest) returns (SuccessResponse) {}
+    // rpc FetchAlerts (FetchAlertsRequest) returns (FetchAlertsResponse) {}
+    rpc CreateAlert (CreateAlertRequest) returns (SuccessResponse) {}
+    rpc UpdateAlert (UpdateAlertRequest) returns (SuccessResponse) {}
+    // rpc FetchTripAlert(FetchTripAlertRequest) returns (FetchTripAlertResponse) {}
+    // rpc FetchTripAlertsCount (FetchTripAlertsCountRequest) returns (FetchTripAlertsCountResponse) {}
+    // rpc FetchExpectedArrivalTime(FetchExpectedArrivalTimeRequest) returns (FetchExpectedArrivalTimeResponse) {}
 }
 
 message Driver {
@@ -169,7 +185,7 @@ message sites {
     string name = 2;
 }
 
-message GetTripByIdRequest {
+message GetResourceId {
     string id = 1;
 }
 message GetTripByIdResponse {
@@ -195,7 +211,7 @@ message tripById {
     repeated stop stops = 16;
     site site = 17;
     repeated location locations = 18;
-    repeated mapBoxPlannedData mapBoxPlannedData = 19;
+    MapBoxPlannedData mapBoxPlannedData = 19;
 }
 message location {
     string id = 1;
@@ -210,4 +226,131 @@ message location {
     string createdAt = 10;
     string updatedAt = 11;
 }
- message mapBoxPlannedData {}
+message Coordionate {
+    repeated float coordionate = 1;
+  }
+  
+  message MapBoxPlannedData {
+    string id = 1;
+    repeated Coordionate mapBoxPlannedData = 2;
+  }
+
+message fetchSinglePlannedAndActualCoordinatesTripsResponse {
+    repeated MapBoxPlannedData mapBoxPlannedData = 1;
+    repeated location locations = 2;
+}
+
+message FetchStatusCountRequest {
+    string userId = 1;
+    string siteId = 2;
+}
+message FetchStatusCountResponse { //check here too
+    string status = 1;
+    string title = 2;
+    int32 count = 3;
+}
+message FetchLoadByStopIdRequest {
+    string stopId = 1;
+}
+message FetchLoadByStopIdResponse {
+    repeated load loads = 1;
+}
+message load {
+    string id = 1;
+    string name = 2;
+    string quantity = 3;
+    string volume = 4;
+    string createdAt = 5;
+    string updatedAt = 6;
+    product product = 7;
+}
+message product {
+    string id = 1;
+    string name = 2;
+    string volume = 3;
+    string createdAt = 4;
+    string updatedAt = 5;
+}
+message GetTripStatusHistoryByIdRequest {
+    string tripId = 1;
+}
+message GetTripStatusHistoryByIdResponse {
+    string success = 1;
+    string message = 2;
+    repeated statusHistory data = 3;
+}
+message statusHistory {
+    string id = 1;
+    string tripStatus = 2;
+    string createdAt = 3;
+}
+message IsInsideGateWayPlantRequest {
+    string lat = 1;
+    string lng = 2;
+}
+message IsInsideGateWayPlantResponse {
+    bool isInside = 1;
+}
+message GetKPIsRequest {
+    string siteId = 1;
+}
+message GetKPIsResponse {
+    int32 plannedLoad = 1;
+    int32 actualLoad = 2;
+    int32 plannedStop = 3;
+    int32 actualStop = 4;
+    int32 plannedVolume = 5;
+    int32 actualVolume = 6;
+    int32 plannedToLeaveSite = 7;
+    int32 actualLeftSite = 8;
+}
+message FetchAlertCountRequest {
+    string siteId = 1;
+    string userId = 2;
+    string date = 3;
+    string tripId = 4;
+}
+message GetReasonsRequest {
+    string alertType = 1;
+}
+message CreateReasonRequest {
+    string reason = 1;
+    string alertType = 2;
+}
+message FetchAlertsRequest {
+    int32 pageSize = 1; 
+    int32 currentPage = 2;
+    string sortWith = 3;
+    string sortBy = 4;
+    string orderBy = 5;
+    string siteId = 6;
+    string date = 7;
+    string status = 8;
+    string type = 9;
+    string userId = 10;
+}
+message CreateAlertRequest {
+    string tripId = 1;
+}
+message UpdateAlertRequest {
+    string alertId = 1;
+    string reason = 2;
+}
+message FetchTripAlertRequest {
+    int32 pageSize = 1; 
+    int32 currentPage = 2;
+    string tripId = 3;
+    string type = 4;
+    string status = 5;
+}
+message FetchTripAlertsCountRequest {
+    int32 siteId = 1; 
+    int32 date = 2;
+    string tripId = 3;
+    string userId = 4;
+}
+message FetchExpectedArrivalTimeRequest {
+    string bandName = 1; 
+    string expectedTakeoffTime = 2;
+    int32 distance = 3;
+}
