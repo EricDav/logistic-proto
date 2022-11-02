@@ -3,40 +3,40 @@ syntax = "proto3";
 package expeditor;
 
 service ExpeditorService {
-    rpc CreateDriver (Driver) returns (SuccessResponse) {}
+    // rpc CreateDriver (Driver) returns (SuccessResponse) {}
     rpc FetchTrips (FetchTripsRequest) returns (FetchTripsResponse) {}
-    rpc FetchTrucks (FetchTrucksRequest) returns (FetchTrucksResponse) {}
-    rpc FetchRecentTruckTrip (FetchRecentTruckTripRequest) returns (FetchRecentTruckTripResponse) {}
-    rpc FetchSites (FetchSitesRequest) returns (FetchSitesResponse) {}
-    rpc GetTripById (GetResourceId) returns (GetTripByIdResponse) {}
-    rpc FetchSinglePlannedAndActualCoordinatesTrips (GetResourceId) returns (fetchSinglePlannedAndActualCoordinatesTripsResponse) {}
-    rpc FetchStatusCount (FetchStatusCountRequest) returns (FetchStatusCountResponse) {}
-    rpc FetchLoadByStopId (FetchLoadByStopIdRequest) returns (FetchLoadByStopIdResponse) {}
-    rpc GetTripStatusHistoryById (GetTripStatusHistoryByIdRequest)returns (GetTripStatusHistoryByIdResponse) {}
-    rpc IsInsideGateWayPlant (IsInsideGateWayPlantRequest) returns (IsInsideGateWayPlantResponse) {}
-    rpc GetKPIs (GetKPIsRequest) returns (GetKPIsResponse) {}
+    // rpc FetchTrucks (FetchTrucksRequest) returns (FetchTrucksResponse) {}
+    // rpc FetchRecentTruckTrip (FetchRecentTruckTripRequest) returns (FetchRecentTruckTripResponse) {}
+    // rpc FetchSites (FetchSitesRequest) returns (FetchSitesResponse) {}
+    // rpc GetTripById (GetResourceId) returns (GetTripByIdResponse) {}
+    // rpc FetchSinglePlannedAndActualCoordinatesTrips (GetResourceId) returns (fetchSinglePlannedAndActualCoordinatesTripsResponse) {}
+    // rpc FetchStatusCount (FetchStatusCountRequest) returns (FetchStatusCountResponse) {}
+    // rpc FetchLoadByStopId (FetchLoadByStopIdRequest) returns (FetchLoadByStopIdResponse) {}
+    // rpc GetTripStatusHistoryById (GetTripStatusHistoryByIdRequest)returns (GetTripStatusHistoryByIdResponse) {}
+    // rpc IsInsideGateWayPlant (IsInsideGateWayPlantRequest) returns (IsInsideGateWayPlantResponse) {}
+    // rpc GetKPIs (GetKPIsRequest) returns (GetKPIsResponse) {}
     // rpc UpdateTruckLocation (UpdateTruckLocationRequest) returns (UpdateTruckLocationResponse) {}
     // rpc FetchAlertCount (FetchAlertCountRequest) returns (FetchAlertCountResponse) {}
     // rpc GetReasons (GetReasonsRequest) returns (GetReasonsResponse) {}
     // rpc CreateReason (CreateReasonRequest) returns (SuccessResponse) {}
     // rpc FetchAlerts (FetchAlertsRequest) returns (FetchAlertsResponse) {}
-    rpc CreateAlert (CreateAlertRequest) returns (SuccessResponse) {}
-    rpc UpdateAlert (UpdateAlertRequest) returns (SuccessResponse) {}
+    // rpc CreateAlert (CreateAlertRequest) returns (SuccessResponse) {}
+    // rpc UpdateAlert (UpdateAlertRequest) returns (SuccessResponse) {}
     // rpc FetchTripAlert(FetchTripAlertRequest) returns (FetchTripAlertResponse) {}
     // rpc FetchTripAlertsCount (FetchTripAlertsCountRequest) returns (FetchTripAlertsCountResponse) {}
     // rpc FetchExpectedArrivalTime(FetchExpectedArrivalTimeRequest) returns (FetchExpectedArrivalTimeResponse) {}
 }
 
-message Driver {
-    string name = 1;
-    string email = 2;
-    string phone = 3;
-    string country = 4;
-  }
+// message Driver {
+//     string name = 1;
+//     string email = 2;
+//     string phone = 3;
+//     string country = 4;
+//   }
 
-  message SuccessResponse {
-    bool success = 1;
-}
+//   message SuccessResponse {
+//     bool success = 1;
+// }
 
 message FetchTripsRequest {
     int32 pageSize = 1;
@@ -49,308 +49,282 @@ message FetchTripsRequest {
 }
 
 message FetchTripsResponse {
-    repeated trip trips = 1;
-    paginate pagination = 2;
+    repeated Trip trips = 1;
+    Paginate pagination = 2;
 }
-message trip {
+message Trip {
     string id = 1;
     string takeOffTime = 2;
     string actualTakeOffTime = 3;
     string actualArrivalTime = 4;
     string expectedArrivalTime = 5;
     string newExpectedArrivalTime = 6;
-    string currentStopId= 7;
-    int32 lateness = 8;
-    string status = 9;
-    string lastKnownLocation = 10;
-    string plannedDate = 11;
-    string createdAt = 12;
-    string updatedAt = 13;
-    driver driver = 14;
-    site site = 15;
-    truck truck = 16;
-    repeated stop stops = 17;
+    int32 lateness = 7;
+    string status = 8;
+    string lastKnownLocation = 9;
+    Driver driver = 10;
+    Site site = 11;
+    Truck truck = 12;
+    repeated Stop stops = 13;
 }
 
-message driver {
-    string id = 1;
-    string name = 2;
-    string email = 3;
-    string country = 4;
-    string phone = 5;
-    string active = 6;
-    string createdAt = 7;
-    string updatedAt = 8;
+message Driver {
+    string name = 1;
+    string phone = 2;
 }
 
-message site {
+message Site {
     string number = 1;
     string name = 2;
     string long = 3;
     string lat = 4;
-    string country = 5;
-    string isDeployed = 6;
-    string createdAt = 7;
-    string updatedAt = 8;
 }
 
-message truck {
+message Truck {
     string number = 1;
     string name = 2;
-    int32 vehicleId = 3;
-    string color = 4;
-    string imeiNumber = 5;
-    int32 palletSize = 6;
-    string createdAt = 7;
-    string updatedAt = 8;
+    string color = 3;
+    string imeiNumber = 4;
+    int32 palletSize = 5;
 }
 
-message stop {
+message Stop {
     string id = 1;
-    int32 totalVolume = 2;
-    int32 plannedPos = 3;
-    int32 sunStoneplannedPos = 4;
-    string actualPos = 5;
-    string actualArrivalTime = 6;
-    string expectedArrivalTime = 7;
-    string newExpectedArrivalTime = 8;
-    string actualTakeOffTime = 9;
-    string expectedTakeOffTime = 10;
-    string newExpectedTakeOffTime = 11;
-    string createdAt = 12;
-    string updatedAt = 13;
-    customer customer = 14;
+    int32 plannedPos = 2;
+    int32 sunStoneplannedPos = 3;
+    string actualPos = 4;
+    string actualArrivalTime = 5;
+    string expectedArrivalTime = 6;
+    string newExpectedArrivalTime = 7;
+    string actualTakeOffTime = 8;
+    string expectedTakeOffTime = 9;
+    string newExpectedTakeOffTime = 10;
+    Customer customer = 11;
 }
 
-message customer {
-    string id = 1;
-    string name = 2;
-    string email = 3;
-    string country = 4;
-    string phone = 5;
-    string openingHours = 6;
-    string address = 7;
-    string long = 8;
-    string lat = 9;
-    string createdAt = 10;
-    string updatedAt = 11;
+message Customer {
+    string name = 1;
+    string phone = 2;
+    string address = 3;
+    string long = 4;
+    string lat = 5;
 }
-message paginate {
+message Paginate {
     int32 total = 1;
     int32 pageSize = 2;
     int32 currentPage = 3;
 }
-message FetchTrucksRequest {
-    int32 pageSize = 1;
-    int32 currentPage = 2;
-    string search = 3;
-}
-message FetchTrucksResponse {
-    repeated truck trucks = 1;
-    paginate pagination = 2;
-}
-message FetchRecentTruckTripRequest {
-    string truckNumber = 1;
-}
-message FetchRecentTruckTripResponse {
-    recentTrip trip = 1;
-}
-message recentTrip {
-    string id = 1;
-    string takeOffTime = 2;
-    string actualTakeOffTime = 3;
-    string actualArrivalTime = 4;
-    string expectedArrivalTime = 5;
-    string newExpectedArrivalTime = 6;
-    string currentStopId= 7;
-    int32 lateness = 8;
-    string status = 9;
-    string lastKnownLocation = 10;
-    string plannedDate = 11;
-    string createdAt = 12;
-    string updatedAt = 13;
-    repeated stop stops = 14;
-}
+// message FetchTrucksRequest {
+//     int32 pageSize = 1;
+//     int32 currentPage = 2;
+//     string search = 3;
+// }
+// message FetchTrucksResponse {
+//     repeated truck trucks = 1;
+//     paginate pagination = 2;
+// }
+// message FetchRecentTruckTripRequest {
+//     string truckNumber = 1;
+// }
+// message FetchRecentTruckTripResponse {
+//     recentTrip trip = 1;
+// }
+// message recentTrip {
+//     string id = 1;
+//     string takeOffTime = 2;
+//     string actualTakeOffTime = 3;
+//     string actualArrivalTime = 4;
+//     string expectedArrivalTime = 5;
+//     string newExpectedArrivalTime = 6;
+//     string currentStopId= 7;
+//     int32 lateness = 8;
+//     string status = 9;
+//     string lastKnownLocation = 10;
+//     string plannedDate = 11;
+//     string createdAt = 12;
+//     string updatedAt = 13;
+//     repeated stop stops = 14;
+// }
 
-message FetchSitesRequest {
-    string country = 1;
-    string isDeployed = 2;
-}
+// message FetchSitesRequest {
+//     string country = 1;
+//     string isDeployed = 2;
+// }
 
-message FetchSitesResponse {
-    repeated sites sites = 1;
-}
-message sites {
-    string number = 1;
-    string name = 2;
-}
+// message FetchSitesResponse {
+//     repeated sites sites = 1;
+// }
+// message sites {
+//     string number = 1;
+//     string name = 2;
+// }
 
-message GetResourceId {
-    string id = 1;
-}
-message GetTripByIdResponse {
-    tripById trip = 1;
-}
+// message GetResourceId {
+//     string id = 1;
+// }
+// message GetTripByIdResponse {
+//     tripById trip = 1;
+// }
 
-message tripById {
-    string id = 1;
-    string takeOffTime = 2;
-    string actualTakeOffTime = 3;
-    string actualArrivalTime = 4;
-    string expectedArrivalTime = 5;
-    string newExpectedArrivalTime = 6;
-    string currentStopId= 7;
-    int32 lateness = 8;
-    string status = 9;
-    string lastKnownLocation = 10;
-    string plannedDate = 11;
-    string createdAt = 12;
-    string updatedAt = 13;
-    driver driver = 14;
-    truck truck = 15;
-    repeated stop stops = 16;
-    site site = 17;
-    repeated location locations = 18;
-    MapBoxPlannedData mapBoxPlannedData = 19;
-}
-message location {
-    string id = 1;
-    string lat = 2;
-    string long = 3;
-    string address = 4;
-    string date = 5;
-    string startDate = 6;
-    int32 ownerId = 7;
-    string evaluated = 8;
-    int32 numUnique = 9;
-    string createdAt = 10;
-    string updatedAt = 11;
-}
-message Coordionate {
-    repeated float coordionate = 1;
-  }
+// message tripById {
+//     string id = 1;
+//     string takeOffTime = 2;
+//     string actualTakeOffTime = 3;
+//     string actualArrivalTime = 4;
+//     string expectedArrivalTime = 5;
+//     string newExpectedArrivalTime = 6;
+//     string currentStopId= 7;
+//     int32 lateness = 8;
+//     string status = 9;
+//     string lastKnownLocation = 10;
+//     string plannedDate = 11;
+//     string createdAt = 12;
+//     string updatedAt = 13;
+//     driver driver = 14;
+//     truck truck = 15;
+//     repeated stop stops = 16;
+//     site site = 17;
+//     repeated location locations = 18;
+//     MapBoxPlannedData mapBoxPlannedData = 19;
+// }
+// message location {
+//     string id = 1;
+//     string lat = 2;
+//     string long = 3;
+//     string address = 4;
+//     string date = 5;
+//     string startDate = 6;
+//     int32 ownerId = 7;
+//     string evaluated = 8;
+//     int32 numUnique = 9;
+//     string createdAt = 10;
+//     string updatedAt = 11;
+// }
+// message Coordionate {
+//     repeated float coordionate = 1;
+//   }
   
-  message MapBoxPlannedData {
-    string id = 1;
-    repeated Coordionate mapBoxPlannedData = 2;
-  }
+//   message MapBoxPlannedData {
+//     string id = 1;
+//     repeated Coordionate mapBoxPlannedData = 2;
+//   }
 
-message fetchSinglePlannedAndActualCoordinatesTripsResponse {
-    repeated MapBoxPlannedData mapBoxPlannedData = 1;
-    repeated location locations = 2;
-}
+// message fetchSinglePlannedAndActualCoordinatesTripsResponse {
+//     repeated MapBoxPlannedData mapBoxPlannedData = 1;
+//     repeated location locations = 2;
+// }
 
-message FetchStatusCountRequest {
-    string userId = 1;
-    string siteId = 2;
-}
-message FetchStatusCountResponse { //check here too
-    string status = 1;
-    string title = 2;
-    int32 count = 3;
-}
-message FetchLoadByStopIdRequest {
-    string stopId = 1;
-}
-message FetchLoadByStopIdResponse {
-    repeated load loads = 1;
-}
-message load {
-    string id = 1;
-    string name = 2;
-    string quantity = 3;
-    string volume = 4;
-    string createdAt = 5;
-    string updatedAt = 6;
-    product product = 7;
-}
-message product {
-    string id = 1;
-    string name = 2;
-    string volume = 3;
-    string createdAt = 4;
-    string updatedAt = 5;
-}
-message GetTripStatusHistoryByIdRequest {
-    string tripId = 1;
-}
-message GetTripStatusHistoryByIdResponse {
-    string success = 1;
-    string message = 2;
-    repeated statusHistory data = 3;
-}
-message statusHistory {
-    string id = 1;
-    string tripStatus = 2;
-    string createdAt = 3;
-}
-message IsInsideGateWayPlantRequest {
-    string lat = 1;
-    string lng = 2;
-}
-message IsInsideGateWayPlantResponse {
-    bool isInside = 1;
-}
-message GetKPIsRequest {
-    string siteId = 1;
-}
-message GetKPIsResponse {
-    int32 plannedLoad = 1;
-    int32 actualLoad = 2;
-    int32 plannedStop = 3;
-    int32 actualStop = 4;
-    int32 plannedVolume = 5;
-    int32 actualVolume = 6;
-    int32 plannedToLeaveSite = 7;
-    int32 actualLeftSite = 8;
-}
-message FetchAlertCountRequest {
-    string siteId = 1;
-    string userId = 2;
-    string date = 3;
-    string tripId = 4;
-}
-message GetReasonsRequest {
-    string alertType = 1;
-}
-message CreateReasonRequest {
-    string reason = 1;
-    string alertType = 2;
-}
-message FetchAlertsRequest {
-    int32 pageSize = 1; 
-    int32 currentPage = 2;
-    string sortWith = 3;
-    string sortBy = 4;
-    string orderBy = 5;
-    string siteId = 6;
-    string date = 7;
-    string status = 8;
-    string type = 9;
-    string userId = 10;
-}
-message CreateAlertRequest {
-    string tripId = 1;
-}
-message UpdateAlertRequest {
-    string alertId = 1;
-    string reason = 2;
-}
-message FetchTripAlertRequest {
-    int32 pageSize = 1; 
-    int32 currentPage = 2;
-    string tripId = 3;
-    string type = 4;
-    string status = 5;
-}
-message FetchTripAlertsCountRequest {
-    int32 siteId = 1; 
-    int32 date = 2;
-    string tripId = 3;
-    string userId = 4;
-}
-message FetchExpectedArrivalTimeRequest {
-    string bandName = 1; 
-    string expectedTakeoffTime = 2;
-    int32 distance = 3;
-}
+// message FetchStatusCountRequest {
+//     string userId = 1;
+//     string siteId = 2;
+// }
+// message FetchStatusCountResponse { //check here too
+//     string status = 1;
+//     string title = 2;
+//     int32 count = 3;
+// }
+// message FetchLoadByStopIdRequest {
+//     string stopId = 1;
+// }
+// message FetchLoadByStopIdResponse {
+//     repeated load loads = 1;
+// }
+// message load {
+//     string id = 1;
+//     string name = 2;
+//     string quantity = 3;
+//     string volume = 4;
+//     string createdAt = 5;
+//     string updatedAt = 6;
+//     product product = 7;
+// }
+// message product {
+//     string id = 1;
+//     string name = 2;
+//     string volume = 3;
+//     string createdAt = 4;
+//     string updatedAt = 5;
+// }
+// message GetTripStatusHistoryByIdRequest {
+//     string tripId = 1;
+// }
+// message GetTripStatusHistoryByIdResponse {
+//     string success = 1;
+//     string message = 2;
+//     repeated statusHistory data = 3;
+// }
+// message statusHistory {
+//     string id = 1;
+//     string tripStatus = 2;
+//     string createdAt = 3;
+// }
+// message IsInsideGateWayPlantRequest {
+//     string lat = 1;
+//     string lng = 2;
+// }
+// message IsInsideGateWayPlantResponse {
+//     bool isInside = 1;
+// }
+// message GetKPIsRequest {
+//     string siteId = 1;
+// }
+// message GetKPIsResponse {
+//     int32 plannedLoad = 1;
+//     int32 actualLoad = 2;
+//     int32 plannedStop = 3;
+//     int32 actualStop = 4;
+//     int32 plannedVolume = 5;
+//     int32 actualVolume = 6;
+//     int32 plannedToLeaveSite = 7;
+//     int32 actualLeftSite = 8;
+// }
+// message FetchAlertCountRequest {
+//     string siteId = 1;
+//     string userId = 2;
+//     string date = 3;
+//     string tripId = 4;
+// }
+// message GetReasonsRequest {
+//     string alertType = 1;
+// }
+// message CreateReasonRequest {
+//     string reason = 1;
+//     string alertType = 2;
+// }
+// message FetchAlertsRequest {
+//     int32 pageSize = 1; 
+//     int32 currentPage = 2;
+//     string sortWith = 3;
+//     string sortBy = 4;
+//     string orderBy = 5;
+//     string siteId = 6;
+//     string date = 7;
+//     string status = 8;
+//     string type = 9;
+//     string userId = 10;
+// }
+// message CreateAlertRequest {
+//     string tripId = 1;
+// }
+// message UpdateAlertRequest {
+//     string alertId = 1;
+//     string reason = 2;
+// }
+// message FetchTripAlertRequest {
+//     int32 pageSize = 1; 
+//     int32 currentPage = 2;
+//     string tripId = 3;
+//     string type = 4;
+//     string status = 5;
+// }
+// message FetchTripAlertsCountRequest {
+//     int32 siteId = 1; 
+//     int32 date = 2;
+//     string tripId = 3;
+//     string userId = 4;
+// }
+// message FetchExpectedArrivalTimeRequest {
+//     string bandName = 1; 
+//     string expectedTakeoffTime = 2;
+//     int32 distance = 3;
+// }
