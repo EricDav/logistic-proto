@@ -210,6 +210,7 @@ message StatusCount {
     string title = 2;
     int32 count = 3;
 }
+
 // message FetchLoadByStopIdRequest {
 //     string stopId = 1;
 // }
