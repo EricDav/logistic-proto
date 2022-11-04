@@ -16,6 +16,8 @@ service ExpeditorService {
     rpc FetchTripAlertsCount (FetchAlertCountRequest) returns (FetchAlertCountResponse) {}
     rpc GetReasons (GetReasonsRequest) returns (GetReasonsResponse) {}
     rpc CreateReason (CreateReasonRequest) returns (SuccessResponse) {}
+    rpc GetSiteUsers (GetSiteUsersRequest) returns (GetSiteUsersResponse) {}
+    rpc SwitchSites (SwitchSitesRequest) returns (SwitchSitesResponse) {}
 }
   message SuccessResponse {
     bool success = 1;
@@ -285,4 +287,26 @@ message FetchTripAlertsCountRequest {
     int32 date = 2;
     string tripId = 3;
     string userId = 4;
+}
+message GetSiteUsersRequest {
+    string siteId = 1;
+}
+message GetSiteUsersResponse {
+    repeated SiteUser users = 1;
+}
+message SiteUser {
+    string name = 1;
+    string email = 2;
+    string id = 3;
+}
+message SwitchSitesRequest {
+    string siteNumber = 1;
+    TokenData tokenData = 2;
+}
+message TokenData {
+    string email = 1;
+}
+message SwitchSitesResponse {
+    string id = 1;
+    string token = 2;
 }
