@@ -1,7 +1,7 @@
 syntax = "proto3";
 package fleetManagement;
 
-service fleetManagementService {
+service FleetManagementService {
     rpc CreateVehicle (CreateVehicleRequest) returns (SucessResponse) {}
     rpc UpdateVehicle (UpdateVehicleRequest) returns (EmptyResponse) {}
     rpc CreateDocument (CreateDocumentRequest) returns (CreateDocumentResponse) {}
