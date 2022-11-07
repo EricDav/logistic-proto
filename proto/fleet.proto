@@ -1,0 +1,213 @@
+syntax = "proto3";
+package fleetManagement;
+
+service fleetManagementService {
+    rpc CreateVehicle (CreateVehicleRequest) returns (SucessResponse) {}
+    rpc UpdateVehicle (UpdateVehicleRequest) returns (EmptyResponse) {}
+    rpc CreateDocument (CreateDocumentRequest) returns (CreateDocumentResponse) {}
+    rpc FetchVehicleDocument (FetchVehicleDocumentRequest) returns (FetchVehicleDocumentResponse) {}
+    rpc FetchDocument (FetchDocumentRequest) returns (FetchDocumentResponse) {}
+    rpc DeleteDocument (DeleteDocumentRequest) returns (SucessResponse) {}
+    rpc UpdateDocument (UpdateDocumentRequest) returns (UpdateDocumentResponse) {}
+    rpc FetchVehicles (FetchVehiclesRequest) returns (FetchVehiclesResponse) {}
+    rpc ValidateVehicleNumber (ValidateVehicleNumberRequest) returns (SucessResponse) {}
+    rpc GetServiceStandard (GetServiceStandardRequest) returns (GetServiceStandardResponse) {}
+    rpc FetchSingleVehicle (FetchSingleVehicleRequest) returns (FetchSingleVehicleResponse) {}
+    rpc AssignVehicleToDriver (AssignVehicleToDriverRequest) returns (SucessResponse) {}
+    rpc LogAvailability (LogAvailabilityRequest) returns (SucessResponse) {}
+    rpc GetVehiclePhotos (GetVehiclePhotosRequest) returns (GetVehiclePhotosResponse) {}
+}
+
+message SucessResponse {
+    bool success = 1;
+}
+message EmptyResponse {}
+message CreateVehicleRequest {
+    string capacity = 1;
+    string oem = 2;
+    string timeInterval = 3;
+    string distanceInterval = 4;
+    string timeDueThreshold = 5;
+    string distanceDueThreshold = 6;
+    string lastServiceKM = 7;
+}
+message UpdateVehicleRequest {
+    string vehicleId = 1;
+    string number = 2;
+}
+message CreateDocumentRequest {
+    string vehicleNumber = 1;
+    string issueDate = 2;
+    string validity = 3;
+}
+message CreateDocumentResponse {
+    bool success = 1;
+    // add here 
+}
+message FetchVehicleDocumentRequest {
+    string driverId = 1;
+}
+message FetchVehicleDocumentResponse {
+    Document documents = 1;
+}
+message Document {
+    string id = 1;
+    string imageUrl = 2;
+    string name = 3;
+    string validity = 4;
+    string issueDate = 5;
+    string expiryDate = 6;
+}
+message FetchDocumentRequest {
+    string pageNumber = 1;
+    string pageSize = 2;
+    string siteId = 3;
+    string status = 4;
+}
+message FetchDocumentResponse {
+    Document documents = 1;
+    Paginate pagination = 2;
+}
+message DeleteDocumentRequest {
+    string id = 1;
+}
+message UpdateDocumentRequest {
+    string id = 1;
+    string issueDate = 2;
+}
+message UpdateDocumentResponse {
+    bool success = 1;
+    UpdatedDocument data = 2;
+}
+message UpdatedDocument {
+    string id = 1;
+    string name = 2;
+    string expiryDate = 3;
+    string validity = 4;
+    string updatedAt = 5;
+}
+message FetchVehiclesRequest {
+    string pageSize = 1;
+    string currentPage = 2;
+    string oem = 3;
+    string search = 4;
+    string status = 5;
+    string type = 6;
+}
+message FetchVehiclesResponse {
+    Paginate pagination = 1;
+    repeated Vehicle vehicles = 2;
+}
+message Vehicle {
+    string number = 1;
+    string model = 2;
+    string frontViewImageUrl = 3;
+    string rightViewImageUrl = 4;
+    string capacity = 5;
+    string oem = 6;
+    string company = 7;
+    string truckNumber = 8;
+    string color = 9;
+    string engineNumber = 10;
+    string siteNumber = 11;
+    string tractorChasisNumber = 12;
+    string tractorNumber = 13;
+    string trailerNumber = 14;
+    string trailerChasisNumber = 15;
+    string tankCapacity = 16;
+    string year = 17;
+    string odometer = 18;
+    string nextServiceKM = 19;
+    string lastServiceKM = 20;
+    string serviceReminderKM = 21;
+    string gpsTrackingNumber = 22;
+    string location = 23;
+    string dateOfPurchase = 24;
+    string userId = 25;
+    string userData = 26;
+    string status = 27;
+}
+message Paginate {
+    int32 total = 1;
+    int32 pageSize = 2;
+    int32 currentPage = 3;
+}
+message ValidateVehicleNumberRequest {
+    string vehicleNumber = 1;
+}
+message GetServiceStandardRequest {
+    string oem = 1;
+    string capacity = 2;
+}
+message GetServiceStandardResponse {
+    bool success = 1;
+    ServiceStandard data = 2;
+}
+message ServiceStandard {
+    string id = 1;
+    string capacity = 2;
+    string oem = 3;
+    string timeInterval = 4;
+    string distanceInterval = 5;
+    string timeDueThreshold = 6;
+    string distanceDueThreshold = 7;
+}
+message FetchSingleVehicleRequest {
+    string vehicleNumber = 1;
+}
+message DocumentedVehicle {
+    string number = 1;
+    string model = 2;
+    string frontViewImageUrl = 3;
+    string rightViewImageUrl = 4;
+    string capacity = 5;
+    string oem = 6;
+    string company = 7;
+    string truckNumber = 8;
+    string color = 9;
+    string engineNumber = 10;
+    string siteNumber = 11;
+    string tractorChasisNumber = 12;
+    string tractorNumber = 13;
+    string trailerNumber = 14;
+    string trailerChasisNumber = 15;
+    string tankCapacity = 16;
+    string year = 17;
+    string odometer = 18;
+    string nextServiceKM = 19;
+    string lastServiceKM = 20;
+    string serviceReminderKM = 21;
+    string gpsTrackingNumber = 22;
+    string location = 23;
+    string dateOfPurchase = 24;
+    string userId = 25;
+    string userData = 26;
+    string status = 27;
+    repeated Document documents = 28;
+}
+message FetchSingleVehicleResponse {
+    DocumentedVehicle vehicle = 1;
+}
+message AssignVehicleToDriverRequest {
+    string vehicleNumber = 1;
+    string userId = 2;
+}
+message LogAvailabilityRequest {
+    repeated VehicleNumber vehicleNumbers = 1;
+    string status = 2;
+}
+message VehicleNumber {
+    string number = 1;
+}
+message GetVehiclePhotosRequest {
+    string number = 1;
+}
+message GetVehiclePhotosResponse {
+    repeated Photo photos = 1;
+}
+message Photo {
+    string id = 1;
+    string source = 2;
+    string imageUrl = 3;
+    string createdAt = 4;
+}
