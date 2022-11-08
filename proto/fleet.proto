@@ -50,10 +50,12 @@ message CreateDocumentRequest {
     string vehicleNumber = 1;
     string issueDate = 2;
     string validity = 3;
+    string imageUrl = 4;
+    string name = 5;
 }
 message CreateDocumentResponse {
     bool success = 1;
-    // add here 
+    Document data = 2;
 }
 message FetchVehicleDocumentRequest {
     string driverId = 1;
@@ -207,6 +209,7 @@ message AssignVehicleToDriverRequest {
     string vehicleNumber = 1;
     string userId = 2;
 }
+//check logAvailability
 message LogAvailabilityRequest {
     repeated VehicleNumber vehicleNumbers = 1;
     string status = 2;
