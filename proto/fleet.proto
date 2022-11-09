@@ -25,6 +25,28 @@ service FleetManagementService {
     rpc AddResponsesToInspection (AddResponsesToInspectionRequest) returns (AddResponsesToInspectionResponse) {}
     rpc AddSingleResponseToInspection (AddSingleResponseToInspectionRequest) returns (EmptyResponse) {}
     rpc GetInspectionWeeklySummaryCount (GetInspectionWeeklySummaryCountRequest) returns (GetInspectionWeeklySummaryCountResponse) {}
+
+    rpc GetDashboardStat (GetDashboardStatRequest) returns (GetDashboardStatResponse) {}
+    rpc FetchSparesIssued (FetchSparesIssuedRequest) returns (FetchSparesIssuedResponse) {}
+    rpc GetWorkOrderHistory (GetWorkOrderHistoryRequest) returns (GetWorkOrderHistoryResponse) {}
+    rpc FetchMaintenanceHistory (FetchMaintenanceHistoryRequest) returns (FetchMaintenanceHistoryResponse) {}
+    rpc FetchCategories (FetchCategoriesRequest) returns (FetchCategoriesResponse) {}
+    rpc FetchServiceHistory (FetchServiceHistoryRequest) returns (FetchServiceHistoryResponse) {}
+    rpc FetchSingleWorkOrder (FetchSingleWorkOrderRequest) returns (FetchSingleWorkOrderResponse) {}
+    rpc FetchSingleSpare (FetchSingleSpareRequest) returns (FetchSingleSpareResponse) {}
+    rpc FetchWorkOrder (FetchWorkOrderRequest) returns (FetchWorkOrderResponse) {}
+    rpc FetchSpares (FetchSparesRequest) returns (FetchSparesResponse) {}
+    rpc FetchIssues (FetchIssuesRequest) returns (FetchIssuesResponse) {}
+    rpc FetchSingleIssues (FetchSingleIssuesRequest) returns (FetchSingleIssuesResponse) {}
+    rpc GetMaintenanceCostStat (GetMaintenanceCostStatRequest) returns (GetMaintenanceCostStatResponse) {}
+    rpc CreateIssue (CreateIssueRequest) returns (CreateIssueResponse) {}
+    rpc UpdateIssueStatus (UpdateIssueStatusRequest) returns (SucessResponse) {}
+    rpc DeleteIssue (DeleteIssueRequest) returns (SucessResponse) {}
+    rpc CreateWorkOrder (CreateWorkOrderRequest) returns (CreateWorkOrderResponse) {}
+    rpc UpdateWorkOrderStatus (UpdateWorkOrderStatusRequest) returns (SucessResponse) {}
+    rpc DeleteWorkorder (DeleteWorkorderRequest) returns (SucessResponse) {}
+    rpc AddSupplier (AddSupplierRequest) returns (AddSupplierResponse) {}
+    rpc UpdateWorkOrder (UpdateWorkOrderRequest) returns (UpdateWorkOrderResponse) {}
 }
 
 message SucessResponse {
@@ -359,3 +381,399 @@ message InspectionPaginate {
     int32 failCount = 2;
     int32 passCount = 3;
  }
+ //Issues
+ message GetDashboardStatRequest{
+    string siteId = 1;
+ }
+ message GetDashboardStatResponse {
+    IssueCount issueCount = 1;
+    repeated StatusCount vehicleStatusCount = 2;
+    repeated StatusCount workOrderStatusCount = 3;
+    SpareCount spareCount = 4;
+    DocumentRenewalCount documentRenewalCount = 5;
+    ServiceReminder serviceReminder = 6;
+ }
+ message IssueCount {
+    int32 open = 1;
+    int32 due = 2;
+ }
+ message StatusCount {
+    string status = 1;
+    int32 count = 2;
+ }
+ message SpareCount {
+    int32 outOfStockSpareCount = 1;
+    int32 lowSpareCount = 2;
+ }
+ message DocumentRenewalCount {
+    int32 expiredCount = 1;
+    int32 dueCount = 2;
+ }
+ message ServiceReminder {
+    int32 serviceDueCount = 1;
+    int32 serviceOverDueCount = 2;
+ }
+ message FetchSparesIssuedRequest {
+    string pageSize = 1;
+    string siteId = 2;
+    string pageNumber = 3;
+ }
+ message FetchSparesIssuedResponse {
+    repeated SparesIssued sparesIssued = 1;
+    Paginate pagination = 2;
+ }
+ message SparesIssued {
+    string id = 1;
+    int32 qty = 2;
+    int32 totalAmount = 3;
+    WorkOrder workOrder = 4;
+    Spare spare = 5;
+ }
+ message WorkOrder {
+    string number = 1;
+    string maintenanceType = 2;
+    string jobDescription = 3;
+    string technicianId = 4;
+    string status = 5;
+    int32 nextServiceKM = 6;
+    int32 lastServiceKM = 7;
+    int32 variance = 8;
+    string timeIn = 9;
+    string timeOut = 10;
+    Issue issue = 11;
+ }
+ message Issue {
+    string id = 1;
+    string siteId = 2;
+    string source = 3;
+    int32 odonometer = 4;
+    int32 kilometerReading = 5;
+    string status = 6;
+    string issue = 7;
+    Vehicle vehicle = 8;
+ }
+ message Spare {
+    int32 id = 1;
+    string siteId = 2;
+    string name = 3;
+    int32 recorderLevel = 4;
+    int32 minLevel = 5;
+    int32 maxLevel = 6;
+    int32 initialStock = 7;
+    int32 amount = 8;
+    string class = 9;
+    string company = 10;
+    string code = 11;
+    string imageUrl = 12;
+ }
+ message GetWorkOrderHistoryRequest {
+    string pageSize = 1;
+    string currentPage = 2;
+    string vehicleNumber = 3;
+ }
+ message GetWorkOrderHistoryResponse {
+    repeated WorkOrder workOrders = 1;
+    Paginate pagination = 2;
+ }
+ message FetchMaintenanceHistoryRequest {
+    string pageSize = 1;
+    string currentPage = 2;
+    string siteNumber = 3;
+ }
+ message FetchMaintenanceHistoryResponse {
+    repeated MaintenanceHistory maintenanceHistory = 1;
+    Paginate pagination = 2;
+ }
+ message MaintenanceHistory {
+    string vehicleNumber = 1;
+    int32 totalAmount = 2;
+ }
+ message FetchCategoriesRequest {
+    string siteId = 1;
+ }
+ message FetchCategoriesResponse {
+    repeated Category categories = 1;
+ }
+ message Category {
+    int32 id = 1;
+    string name = 2;
+    string siteId = 3;
+    int32 SLA = 4;
+ }
+ message FetchServiceHistoryRequest {
+    string pageSize = 1;
+    string currentPage = 2;
+    string vehicleNumber = 3;
+    string status = 4;
+ }
+ message FetchServiceHistoryResponse {
+    repeated WorkOrderHistory workOrderHistory = 1;
+    Paginate pagination = 2;
+ }
+ message WorkOrderHistory {
+    string number = 1;
+    string maintenanceType = 2;
+    string jobDescription = 3;
+    string technicianId = 4;
+    string status = 5;
+    int32 nextServiceKM = 6;
+    int32 lastServiceKM = 7;
+    int32 variance = 8;
+    string timeIn = 9;
+    string timeOut = 10;
+    Item items = 11;
+    Issue issue = 12;
+ }
+ message Item {
+    string id = 1;
+    int32 qty = 2;
+    int32 totalAmount = 3;
+ }
+ message FetchSingleWorkOrderRequest {
+    string id = 1;
+ }
+ message FetchSingleWorkOrderResponse {
+    SingleWorkOrder workOrder = 1;
+    Technician technician = 2;
+ }
+ message Technician {
+    string id = 1;
+    string name = 2;
+    string phone = 3;
+    string email = 4;
+    string country = 5;
+    string imageUrl = 6;
+    string siteId= 7;
+    string isDeleted = 8;
+    string vehicleNumber = 9;
+    repeated Role role = 10;
+ }
+ message Role {
+    int32 id = 1;
+    string name = 2;
+ }
+ message SingleWorkOrder {
+    string number = 1;
+    string maintenanceType = 2;
+    string jobDescription = 3;
+    string technicianId = 4;
+    string status = 5;
+    int32 nextServiceKM = 6;
+    int32 lastServiceKM = 7;
+    int32 variance = 8;
+    string timeIn = 9;
+    string timeOut = 10;
+    Issue issue = 11;
+    Category category = 12;
+    repeated SingleItem items = 13;
+ }
+ message SingleItem {
+    string id = 1;
+    int32 qty = 2;
+    int32 totalAmount = 3;
+    Spare spare = 4;
+ }
+ message FetchSingleSpareRequest {
+    string spareId = 1;
+ }
+ message FetchSingleSpareResponse {
+    SingleSpare spare = 1;
+ }
+ message SingleSpare {
+    int32 id = 1;
+    string siteId = 2;
+    string name = 3;
+    int32 recorderLevel = 4;
+    int32 minLevel = 5;
+    int32 maxLevel = 6;
+    int32 initialStock = 7;
+    int32 amount = 8;
+    string class = 9;
+    string company = 10;
+    string code = 11;
+    string imageUrl = 12;
+    repeated Supplier supliers = 13;
+ }
+ message Supplier {
+    string id = 1;
+    string name = 2;
+    int32 qty = 3;
+    string note = 4;
+ }
+ message FetchWorkOrderRequest {
+    string pageSize = 1;
+    string pageNumber = 2;
+    string siteId = 3;
+    string status = 4;
+    string technicianId = 5;
+ }
+ message Pagination {
+    int32 total = 1;
+    int32 pageSize = 2;
+    int32 pageNumber = 3;
+}
+ message FetchWorkOrderResponse {
+    repeated WorkOrder data = 1;
+    Pagination pagination = 2;
+ }
+ message FetchSparesRequest {
+    string pageSize = 1;
+    string pageNumber = 2;
+    string siteId = 3;
+    string search = 4;
+ }
+ message FetchSparesResponse {
+    repeated Spare spare = 1;
+    Paginate pagination = 2;
+ }
+ message FetchIssuesRequest {
+    string pageSize = 1;
+    string currentPage = 2;
+    string siteId = 3;
+    string vehicleNumber = 4;
+    string source = 5;
+    string status = 6;
+ }
+ message FetchIssuesResponse {
+    repeated Issues issues = 1;
+    Paginate pagination = 2;
+ }
+ message Issues {
+    string id = 1;
+    string siteId = 2;
+    string source = 3;
+    int32 odonometer = 4;
+    int32 kilometerReading = 5;
+    string status = 6;
+    string issue = 7;
+    Vehicle vehicle = 8;
+    repeated Image image = 9;
+ }
+ message Image {
+    string id = 1;
+    string imageUrl = 2;
+ }
+ message FetchSingleIssuesRequest {
+    string issueId = 1;
+ }
+ message FetchSingleIssuesResponse {
+    SingleIssue issue = 1;
+ }
+ message SingleIssue {
+    string id = 1;
+    string siteId = 2;
+    string source = 3;
+    int32 odonometer = 4;
+    int32 kilometerReading = 5;
+    string status = 6;
+    string issue = 7;
+    Vehicle vehicle = 8;
+    repeated IssueWorkOrder workOrder = 9;
+ }
+ message IssueWorkOrder {
+    string number = 1;
+    string maintenanceType = 2;
+    string jobDescription = 3;
+    string technicianId = 4;
+    string status = 5;
+    int32 nextServiceKM = 6;
+    int32 lastServiceKM = 7;
+    int32 variance = 8;
+    string timeIn = 9;
+    string timeOut = 10;
+ }
+ message GetMaintenanceCostStatRequest {
+    string siteId = 1;
+ }
+ message GetMaintenanceCostStatResponse {
+    repeated MaintenanceCostStat maintenanceCostStat = 1;
+ }
+ message MaintenanceCostStat {
+    string name = 1;
+    string PMCount = 2;
+    string CMCount = 3;
+ }
+ message CreateIssueRequest {
+    int32 vehicleNumber = 1;
+    string status = 2;
+    string issue = 3;
+    string siteId = 4;
+    string source = 5;
+    int32 odonometer = 6;
+    int32 kilometerReading = 7;
+    string image = 8;
+ }
+ message CreateIssueResponse {
+    bool success = 1;
+    Issue issue = 2;
+ }
+ message UpdateIssueStatusRequest {
+    string issue = 1;
+    string status = 2;
+ }
+ message DeleteIssueRequest {
+    string issue = 1;
+ }
+ message CreateWorkOrderRequest {
+    string issueId = 1;
+    string categoryId = 2;
+    string maintenanceType = 3;
+    string technicianId = 4;
+    string jobDescription = 5;
+ }
+ message CreateWorkOrderResponse {
+    string issueId = 1;
+    string categoryId = 2;
+    string maintenanceType = 3;
+    string technicianId = 4;
+    string jobDescription = 5;
+    Issue issue = 6;
+    Category category = 7;
+    string number = 8;
+    string status = 9;
+    int32 nextServiceKM = 10;
+    int32 lastServiceKM = 11;
+    int32 variance = 12;
+    string timeIn = 13;
+    string timeOut = 14;
+    Technician technician = 15;
+ }
+ message UpdateWorkOrderStatusRequest {
+    string status = 1;
+    string id = 2;
+ }
+ message DeleteWorkorderRequest {
+    string id = 1;
+ }
+ message AddSupplierRequest {
+    string spareCode = 1;
+    int32 qty = 2;
+    string note = 3 ;
+    string name = 4;
+ }
+ message AddSupplierResponse {
+    string id = 1;
+    string name = 2;
+    int32 qty = 3;
+    string note = 4;
+    Spare spare = 5;
+ }
+ message UpdateWorkOrderRequest {
+    string id = 1;
+    string jobDescription = 2;
+    string maintenanceType = 3;
+    string categoryId = 4;
+    string technicianId = 5;
+    repeated WorkItem item = 6;
+ }
+ message WorkItem {
+    string spareId = 1;
+    int32 qty = 2;
+ }
+message UpdateWorkOrderResponse {
+    string number = 1;
+    string jobDescription = 2;
+    string maintenanceType = 3;
+    Category category = 4;
+    Technician technician = 5;
+}
