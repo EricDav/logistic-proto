@@ -24,6 +24,7 @@ service FleetManagementService {
     rpc FetchSingleInspection (FetchSingleInspectionRequest) returns (FetchSingleInspectionResponse) {}
     rpc AddResponsesToInspection (AddResponsesToInspectionRequest) returns (AddResponsesToInspectionResponse) {}
     rpc AddSingleResponseToInspection (AddSingleResponseToInspectionRequest) returns (EmptyResponse) {}
+    rpc GetInspectionWeeklySummaryCount (GetInspectionWeeklySummaryCountRequest) returns (GetInspectionWeeklySummaryCountResponse) {}
 }
 
 message SucessResponse {
@@ -346,4 +347,15 @@ message InspectionPaginate {
  }
  message AddSingleResponseToInspectionRequest {
     Responses response = 1;
+ }
+ message GetInspectionWeeklySummaryCountRequest {
+    string siteId = 1;
+ }
+ message GetInspectionWeeklySummaryCountResponse {
+    repeated DaysOfWeekInspectionSummary daysOfWeekInspectionSummary = 1;
+ }
+ message DaysOfWeekInspectionSummary {
+    string name = 1;
+    int32 failCount = 2;
+    int32 passCount = 3;
  }
