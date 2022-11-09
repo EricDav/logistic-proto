@@ -16,6 +16,14 @@ service FleetManagementService {
     rpc AssignVehicleToDriver (AssignVehicleToDriverRequest) returns (SucessResponse) {}
     rpc LogAvailability (LogAvailabilityRequest) returns (SucessResponse) {}
     rpc GetVehiclePhotos (GetVehiclePhotosRequest) returns (GetVehiclePhotosResponse) {}
+
+    rpc CreateQuestion (CreateQuestionRequest) returns (CreateQuestionResponse) {}
+    rpc FetchQuestions (FetchQuestionsRequest) returns (FetchQuestionsResponse) {}
+    rpc CreateInspections (CreateInspectionsRequest) returns (CreateInspectionsResponse) {}
+    rpc FetchInspections (FetchInspectionsRequest) returns (FetchInspectionsResponse) {}
+    rpc FetchSingleInspection (FetchSingleInspectionRequest) returns (FetchSingleInspectionResponse) {}
+    rpc AddResponsesToInspection (AddResponsesToInspectionRequest) returns (AddResponsesToInspectionResponse) {}
+    rpc AddSingleResponseToInspection (AddSingleResponseToInspectionRequest) returns (EmptyResponse) {}
 }
 
 message SucessResponse {
@@ -116,7 +124,7 @@ message Vehicle {
     string model = 2;
     string frontViewImageUrl = 3;
     string rightViewImageUrl = 4;
-    string capacity = 5;
+    int32 capacity = 5;
     string oem = 6;
     string company = 7;
     string truckNumber = 8;
@@ -127,12 +135,12 @@ message Vehicle {
     string tractorNumber = 13;
     string trailerNumber = 14;
     string trailerChasisNumber = 15;
-    string tankCapacity = 16;
-    string year = 17;
-    string odometer = 18;
-    string nextServiceKM = 19;
-    string lastServiceKM = 20;
-    string serviceReminderKM = 21;
+    int32 tankCapacity = 16;
+    int32 year = 17;
+    int32 odometer = 18;
+    int32 nextServiceKM = 19;
+    int32 lastServiceKM = 20;
+    int32 serviceReminderKM = 21;
     string gpsTrackingNumber = 22;
     string location = 23;
     string dateOfPurchase = 24;
@@ -229,3 +237,113 @@ message Photo {
     string imageUrl = 3;
     string createdAt = 4;
 }
+//Inspection
+message CreateQuestionRequest {
+    string question = 1;
+    string type = 2;
+}
+message CreateQuestionResponse {
+    bool success = 1;
+    Question question = 2;
+}
+message FetchQuestionsRequest {
+    string type = 1;
+}
+message FetchQuestionsResponse {
+    bool success = 1;
+    repeated Question questions = 2;
+}
+message Question {
+    string id = 1;
+    string question = 2;
+    string defectType = 3;
+    string otherResponse = 4;
+    string type = 5;
+}
+message FetchInspectionsRequest {
+    string pageSize = 1;
+    string pageNumber = 2;
+    string inspectionType = 3;
+    string userType = 4;
+}
+message FetchInspectionsResponse {
+    InspectionPaginate pagination = 1;
+    repeated Inspection inspections = 2;
+}
+message InspectionPaginate {
+    int32 total = 1;
+    int32 pageSize = 2;
+    int32 pageNumber = 3;
+}
+ message Inspection {
+    string id = 1;
+    string siteId = 2;
+    int32 odonometer = 3;
+    int32 kilometerReading = 4;
+    string userId = 5;
+    string userType = 6;
+    string status = 7;
+    string recomendation = 8;
+    Vehicle vehicle = 9;
+ }
+ message CreateInspectionsRequest {
+    string vehicleNumber = 1;
+    string siteId = 2;
+    int32 odonometer = 3;
+    int32 kilometerReading = 4;
+    string userId = 5;
+    string userType = 6;
+    string status = 7;
+    repeated Responses responses = 8;
+ }
+ message Responses {
+    int32 questionId = 1;
+    string images = 2; //array
+    string answer = 3;
+    string description = 4;
+ }
+ message CreateInspectionsResponse {
+    bool success = 1;
+    Inspection inspection = 2;
+ }
+ message FetchSingleInspectionRequest {
+    string inspectionId = 1;
+ }
+ message FetchSingleInspectionResponse {
+    bool success = 1;
+    SingleInspection inspection = 2;
+ }
+ message SingleInspection {
+    string id = 1;
+    string siteId = 2;
+    int32 odonometer = 3;
+    int32 kilometerReading = 4;
+    string userId = 5;
+    string userType = 6;
+    string status = 7;
+    string recomendation = 8;
+    Vehicle vehicle = 9;
+    SingleResponses reponse = 10;
+ }
+ message SingleResponses {
+    string id = 1;
+    string answer = 2;
+    string description = 3;
+    repeated Images images = 4; 
+    Question question = 5;
+ }
+ message Images {
+    string id = 1;
+    string imageUrl = 2;
+ }
+ message AddResponsesToInspectionRequest {
+    string inspectionId = 1;
+    repeated Responses responses = 2;
+ }
+ message AddResponsesToInspectionResponse {
+    bool success = 1;
+    Inspection inspection = 2;
+ }
+ message AddSingleResponseToInspectionRequest {
+    Responses response = 1;
+ }
