@@ -623,7 +623,7 @@ message InspectionPaginate {
     string search = 4;
  }
  message FetchSparesResponse {
-    repeated Spare spare = 1;
+    repeated Spare spares = 1;
     Paginate pagination = 2;
  }
  message FetchIssuesRequest {
@@ -712,7 +712,7 @@ message InspectionPaginate {
     string status = 2;
  }
  message DeleteIssueRequest {
-    string issue = 1;
+    string issueId = 1;
  }
  message CreateWorkOrderRequest {
     string issueId = 1;
